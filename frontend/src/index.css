@@ -8,4 +8,11 @@
 
 body{
   font-family: "Exo", sans-serif;
+  --brand: #2B59C3;
+  --brandDarker: #253C78;
+  --elementary: #FFEECF;
+  --elementaryDarker: #C9A690;
+  --contrast: #D36582;
+  --contrastDarker: #B24663;
+  --text: #2E2E2E;
 }

@@ -1,0 +1,13 @@
+.auth-input{
+    width: 400px;
+    height: 50px;
+    margin-bottom: 1rem;
+    border-radius: .3rem;
+    border: 1px solid #8E8E8E;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.auth-input::placeholder{
+    color: #8E8E8E;
+}

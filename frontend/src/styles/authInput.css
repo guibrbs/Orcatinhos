@@ -1,3 +1,8 @@
+.form{
+    display: flex;
+    flex-direction: column;
+}
+
 .auth-input-section{
     width: fit-content;
     display: flex;
@@ -5,6 +10,7 @@
     flex-direction: column;
     margin: 0 auto;
     color: var(--text);
+    position: relative;
 }
 
 .auth-input-title{

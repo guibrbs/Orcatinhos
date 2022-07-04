@@ -18,18 +18,19 @@
 }
 
 .auth-illustration-title{
-    font-size: 3rem;
+    font-size: 3vw;
     width: 100%;
-    max-width: 500px;
+    max-width: 27vw;
     text-align: center;
-    line-height: 3rem;
+    line-height: 3vw;
     margin-bottom: 2rem;
     color: #f5f5f5;
 }
 
 .auth-illustration{
     width: 100%;
-    max-width: 650px;
+    max-width: 450px;
+    min-width: 300px;
 }
 
 .motion{

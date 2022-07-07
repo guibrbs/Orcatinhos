@@ -1,18 +1,24 @@
 {
-  "name": "backend",
+  "name": "loginback",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./index.js localhost 3000"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
-    "mongodb": "^4.7.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.3",
+    "sucrase": "^3.23.0"
+  },
+  "devDependencies": {
     "nodemon": "^2.0.19"
   }
 }

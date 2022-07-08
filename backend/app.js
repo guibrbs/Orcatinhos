@@ -31,6 +31,7 @@ app.get("/user/:id", checkToken, async (req, res) => {
   res.status(200).json({ user })
 })
 
+//Middlware
 function checkToken(req, res, next) {
 
   const authHeader = req.headers['authorization']
@@ -121,6 +122,7 @@ app.post('/auth/login', async (req, res) => {
 
   // check if user exists
   const user = await User.findOne({ email: email })
+  const nameUser = user.name //Received name 
 
   if (!user) {
     return res.status(422).json({ message: 'Usuário não encontrado!' })
@@ -143,7 +145,7 @@ app.post('/auth/login', async (req, res) => {
     },
       secret,
     )
-    res.status(200).json({
+    res.status(200).json({ nameUser,
       message: 'Autenticação realizada com sucesso!', token
     })
 

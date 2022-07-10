@@ -1,3 +1,11 @@
+.section{
+    background-color: #EEEEEE;
+    height: '100%';
+    width: '100%';
+    display: contents;
+}
+
+
 .navbar{
     padding: 10px;
     display: flex;

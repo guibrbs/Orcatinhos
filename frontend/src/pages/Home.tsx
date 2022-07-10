@@ -2,10 +2,13 @@ import Orcatinhos from "./../assets/orcatinhos.svg"
 import "./Home.css"
 import homeIllustration from "./../assets/home-illustration.svg"
 import { NoContacts } from "../components/noContacts"
+import { ListContacs} from "../components/ListContacts/ListContacs"
+import Contacts  from "../components/ListContacts/test"
+
 
 export function HomePage(){
     return(
-        <section>
+        <section className="section">
             <div className="navbar">
                 <img src={Orcatinhos} alt="" className="logo"/>
                 <p className="exit">Sair</p>
@@ -28,7 +31,9 @@ export function HomePage(){
             </div>
 
             <div>
-                <NoContacts/>
+                <Contacts/>
+                {/* <ListContacs/> */}
+                {/*<NoContacts/>*/}
             </div>
 
         </section>            

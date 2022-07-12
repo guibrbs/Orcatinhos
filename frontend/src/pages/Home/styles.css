@@ -1,10 +1,10 @@
 .section{
-    background-color: #EEEEEE;
+    background-color: #f6f6f6;
     height: '100%';
     width: '100%';
     display: contents;
+    color: var(--text);
 }
-
 
 .navbar{
     padding: 10px;
@@ -27,7 +27,7 @@
 
 .home-illustration-section {
     height: 22rem;
-    width: 50%;
+    width: 50vw;
     background-color: var(--brandDarker);
     border-radius: 1.5rem;
     margin-left: 25%;
@@ -36,19 +36,25 @@
     justify-content: center;
 }
 
+.home-title-section{
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    width: 100%;
+    max-width: 240px;
+}
+
 .homeIllustration {
     height: 22rem;
 }
 
 .home-illustration-title{
-    font-size: 3vw;
+    font-size: 2.7vw;
     max-width: 27vw;
-    text-align: center;
-    line-height: 3vw;
-    margin-bottom: 2rem;
-    margin-left: 10px;
+    text-align: left;
+    line-height: 2.7vw;
+    margin-bottom: 1rem;
     color: #f5f5f5;
-    flex-direction: column;
 }
 
 .contacts {
@@ -58,17 +64,20 @@
 
 .home-button{
     align-items: center;
+    width: 100%;
     height: 50px;
     border: none;
     background-color: var(--contrast);
-    border-radius: .3rem;
-    color: #f5f5f5;
+    border-radius: .6rem;
+    color: #ffffff;
     font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: ease .3s;
     margin-bottom: 1rem;
-    padding: 1rem;
-    margin-left: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .home-button:hover{

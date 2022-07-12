@@ -1,9 +1,9 @@
-import Orcatinhos from "./../assets/orcatinhos.svg"
-import "./Home.css"
-import homeIllustration from "./../assets/home-illustration.svg"
-import { NoContacts } from "../components/noContacts"
-import { ListContacs} from "../components/ListContacts/ListContacs"
-import Contacts  from "../components/ListContacts/test"
+import Orcatinhos from "../../assets/orcatinhos.svg"
+import homeIllustration from "../../assets/home-illustration.svg"
+import { NoContacts } from "../../components/noContacts"
+import { AiOutlineUserAdd } from 'react-icons/ai'
+import { ListContacts } from "../../components/ListContacts"
+import "./styles.css"
 
 
 export function HomePage(){
@@ -16,11 +16,11 @@ export function HomePage(){
             
             <div>
                 <div className="home-illustration-section">
-                    <div>
+                    <div className="home-title-section">
                         <h1 className="home-illustration-title">
                             Bem-vindo, Fulano de tal
                         </h1>
-                        <button className="home-button">Cadastrar um contato</button>
+                        <button className="home-button"><AiOutlineUserAdd fontSize={20}/>Cadastrar um contato</button>
                     </div>
                     <img src={homeIllustration} alt="" className="homeIllustration"/>
                 </div>
@@ -29,13 +29,8 @@ export function HomePage(){
             <div>
                 <h1 className="contacts">Contatos cadastrados</h1>
             </div>
-
-            <div>
-                <Contacts/>
-                {/* <ListContacs/> */}
-                {/*<NoContacts/>*/}
-            </div>
-
+            <ListContacts/>
+            {/*<NoContacts/>*/}
         </section>            
     )
 }

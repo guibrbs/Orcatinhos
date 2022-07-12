@@ -1,0 +1,18 @@
+.edit-icon{
+    cursor: pointer;
+    color: var(--text);
+    transition: color .3s;
+}
+
+.edit-icon#delete:hover{
+    color: var(--contrastDarker);
+}
+
+.edit-icon#edit:hover{
+    color: var(--brand);
+}
+
+.buttons-wrapper{
+    display: flex;
+    gap: 1.5rem;
+}

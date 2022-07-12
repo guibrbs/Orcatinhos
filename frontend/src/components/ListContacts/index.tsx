@@ -1,60 +1,78 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
 import TableCell , { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Buttons from "../ButtonContact/Button";
-import './styles.css'
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Buttons from '../ButtonContact/Button'
+import { styled } from '@mui/material/styles';
+
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    fontWeight: 'bold',
+    fontSize: 15,
+
+  },
+  
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+    borderRadius: 1,
+  },
+}));
+
+const StyledTable = styled(Table)(({ theme }) => ({
+    [`& .${tableCellClasses.root}`]: {
+      borderBottom: "none"
+  
+  }, 
+    marginLeft:'25%',
+    width: '50%',
+    marginRight: '25%'
+    
+}));
+
+////////////////////////////////////////////////////
 
 function createData(name: string, number: number, email: string) {
   return { name, number, email };
 }
 
+
 const rows = [
-  createData("Lorem ipsum dolor", 159, "Raquel@.com"),
+  createData('Fulano1', 111, 'Fulano111@.com'),
+  createData('Fulano2', 222, 'Fulano222@.com'),
+  createData('Fulano3', 333, 'Fulano333@.com'),
 ];
 
 export function ListContacts() {
   return (
     <div className="table">
-      <TableContainer component={Paper}>
-        <Table
-          sx={{ 
-            [`& .${tableCellClasses.root}`]: {
-                borderBottom: "none"
-              }, minWidth: 100 
-          }} 
-          size="small"
-          aria-label="a dense table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell><b>Nome</b></TableCell>
-              <TableCell align="left"><b>Número</b></TableCell>
-              <TableCell align="left"><b>Email</b></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="left">{row.number}</TableCell>
-                <TableCell align="left">{row.email}</TableCell>
-                <TableCell align="center">
-                  <Buttons />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <StyledTable size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <StyledTableCell>Nome</StyledTableCell>
+            <StyledTableCell align="right">Número</StyledTableCell>
+            <StyledTableCell align="right">Email</StyledTableCell>
+            {/* <TableCell align="right">Protein&nbsp;(g)</TableCell> */}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map((row) => (
+          <TableRow 
+            key={row.name}
+            sx={{backgroundColor:'white'}} //arrumar as bordas
+          >
+            <StyledTableCell component="th" scope="row">{row.name}</StyledTableCell>
+            <StyledTableCell align="right">{row.number}</StyledTableCell>
+            <StyledTableCell align="right">{row.email}</StyledTableCell>
+            <StyledTableCell> <Buttons/> </StyledTableCell>
+          </TableRow>
+          ))}
+        </TableBody>
+      </StyledTable>  
     </div>
+    
+      
   );
 }

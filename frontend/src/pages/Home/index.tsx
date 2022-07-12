@@ -2,7 +2,7 @@ import Orcatinhos from "../../assets/orcatinhos.svg"
 import homeIllustration from "../../assets/home-illustration.svg"
 import { NoContacts } from "../../components/noContacts"
 import { AiOutlineUserAdd } from 'react-icons/ai'
-import { ListContacts } from "../../components/ListContacts"
+import { ListContacts } from "../../components/ListContacts/index"
 import "./styles.css"
 
 

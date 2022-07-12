@@ -1,14 +1,15 @@
 .section{
-    background-color: #f6f6f6;
-    height: '100%';
+    background-color: #EEEEEE;
+    height: 100vh;
     width: '100%';
-    display: contents;
+    display: flexbox;
     color: var(--text);
 }
 
 .navbar{
     padding: 10px;
     display: flex;
+    background-color: #EEEEEE;
 }
 
 .logo {

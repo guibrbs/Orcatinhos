@@ -3,3 +3,4 @@ node_modules
 /routes/PersonRoutes.js
 /models/Person.js
 index2.js
+swagger.json

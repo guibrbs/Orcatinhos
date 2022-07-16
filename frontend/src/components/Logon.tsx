@@ -2,7 +2,7 @@ import { InputTemplate } from "./InputTemplate";
 import '../styles/authInput.css'
 import { useState } from "react";
 import { RegistrationPerformed } from "./RegistrationPerformed";
-import api from '../services/api';
+import {api} from '../services/api';
 
 
 interface LogonInterface {

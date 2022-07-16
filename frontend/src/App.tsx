@@ -1,10 +1,9 @@
-import { Auth } from "./pages/Auth";
-import { HomePage } from "./pages/Home";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
     <div className="App">
-      <HomePage />
+      <AppRoutes />
     </div>
   );
 }

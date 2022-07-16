@@ -4,14 +4,17 @@ import { NoContacts } from "../../components/noContacts"
 import { AiOutlineUserAdd } from 'react-icons/ai'
 import { ListContacts } from "../../components/ListContacts/index"
 import "./styles.css"
-
+import { useContext } from "react"
+import { AuthContext } from "../../contexts/AuthProvider"
 
 export function HomePage(){
+    const {logout} = useContext(AuthContext)
+
     return(
         <section className="section">
             <div className="navbar">
                 <img src={Orcatinhos} alt="" className="logo"/>
-                <p className="exit">Sair</p>
+                <p className="exit" onClick={() => logout()}>Sair</p>
             </div>
             
             <div>

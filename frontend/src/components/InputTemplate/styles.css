@@ -6,6 +6,7 @@
     border: 1px solid #8E8E8E;
     padding: 1rem;
     font-size: 1rem;
+    background-color: transparent;
 }
 
 .auth-input::placeholder{

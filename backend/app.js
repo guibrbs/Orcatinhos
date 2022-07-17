@@ -2,8 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const cors = require('cors')
+const { v4: uuidv4 } = require('uuid');
+uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 
 const app = express()
@@ -25,51 +26,15 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/users', async (req, res)=> {
+app.get('/users', async (req, res) => {
   try {
     const users = await User.find()
     res.json(users)
-  } catch(error){res.status(5000).send(error)}
+  } catch (error) { res.status(5000).send(error) }
 })
 
-// Private Route
-app.get("/user/:id", checkToken, async (req, res) => {
-  const id = req.params.id
 
-  //check if user exists
-  const user = await User.findById(id, '-password')
-
-  if (!user) {
-    return res.status(404).json({ message: 'Usuário não encontrado!' })
-  }
-
-  res.status(200).json({ user })
-})
-
-//Middlware
-function checkToken(req, res, next) {
-
-  const authHeader = req.headers['authorization']
-  const token = authHeader && authHeader.split(" ")[1]
-
-  if (!token) {
-    return res.status(401).json({ message: 'Acesso negado!' })
-  }
-
-  try {
-
-    const secret = process.env.SECRET
-
-    jwt.verify(token, secret)
-
-    next()
-
-  } catch (error) {
-    res.status(400).json({ message: 'Token inválido!' })
-  }
-}
-
-//Register User
+//Routes Register User
 app.post('/auth/register', async (req, res) => {
 
   const { name, email, password, confirmPassword } = req.body
@@ -108,8 +73,9 @@ app.post('/auth/register', async (req, res) => {
     name,
     email,
     password: passwordHash,
+    contacts: []
   })
-
+  console.log(user)
   try {
 
     await user.save()
@@ -137,30 +103,28 @@ app.post('/auth/login', async (req, res) => {
 
   // check if user exists
   const user = await User.findOne({ email: email })
+  
+  const nameUser = user.name //Received name
+  const contacts = user.contacts //received contacts
+  const id = user._id
 
   if (!user) {
-    return res.status(422).json({ message: 'Usuário não encontrado!' })
-
+    return res.status(404).json({ message: 'Usuário não encontrado!' })
   }
 
   //check it password match
   const checkPassword = await bcrypt.compare(password, user.password)
 
   if (!checkPassword) {
-    return res.status(422).json({ message: 'Senha inválida!' })
+    return res.status(400).json({ message: 'Senha inválida!' })
   }
 
   try {
-
-    const secret = process.env.SECRET
-
-    const token = jwt.sign({
-      id: user._id,
-    },
-      secret,
-    )
     res.status(200).json({
-      message: 'Autenticação realizada com sucesso!', user, token
+      nameUser,
+      id,
+      contacts,
+      message: 'Autenticação realizada com sucesso!'
     })
 
   } catch (error) {
@@ -170,6 +134,94 @@ app.post('/auth/login', async (req, res) => {
   }
 
 })
+
+
+//------------------------------------USER ROUTES--------------------------------------------
+
+// Private Route
+
+app.get("/user/contacts/:id", async (req, res) => {
+  const id = req.params.id
+
+  //check if user exists
+  const user = await User.findById(id, '-password')
+
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não encontrado!' })
+  }
+
+  res.status(200).json({ user })
+})
+
+app.post("/user/contacts/:id", async (req, res) => {
+  const id = req.params.id
+  const { nameContact, emailContact, telephoneContact } = req.body
+
+  //check if user exists
+  const user = await User.findById(id, '-password')
+
+  // received contacts
+
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não encontrado!' })
+  }
+
+  if (!nameContact) {
+    return res.status(422).json({ message: 'O nome do contato é obrigatório!' })
+  }
+
+  user.contacts.push({
+    idContato: uuidv4(),
+    nameContact,
+    emailContact,
+    telephoneContact
+  })
+
+  console.log(user)
+
+  try {
+
+    await user.save()
+    res.status(201).json(user)
+
+  } catch (error) {
+    res.status(500).json({
+      message: 'Houve um erro no servidor, tente novamente mais tarde!'
+    })
+  }
+})
+
+app.put('/user/contacts/:id', async (req, res) => {
+  const id = req.params.id
+  const { idContato, nameContact, emailContact, telephoneContact } = req.body
+  // const { nameContact, emailContact, telephoneContact } = req.body
+  //check if user exists
+  console.log('oi')
+  const user = await User.findById(id, '-password').exec()
+  // console.log(user)
+  // console.log(contacts)
+  const contactsUpdate = user.contacts.find(({ id }) => id === idContato)
+  console.log(contactsUpdate)
+
+    if(!contactsUpdate) {
+      return res.status(400).json({error: "Contato não existe"})
+    }
+
+  contactsUpdate.nameContact = nameContact ?? contactsUpdate.nameContact
+  contactsUpdate.emailContact = emailContact ?? contactsUpdate.emailContact
+  contactsUpdate.telephoneContact = telephoneContact ?? contactsUpdate.telephoneContact
+
+    User.updateOne()
+
+  res.status(200).json({ user })
+
+})
+
+app.delete("/user/contacts/:id", async (req, res) => {
+
+})
+
+
 
 
 //Credenciais

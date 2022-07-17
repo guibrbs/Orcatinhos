@@ -219,6 +219,7 @@ app.delete("/user/contacts/:id", async (req, res) => {
 
   const user = await User.findById(id, '-password').exec()
   const contactIndex = user.contacts.findIndex(({ id }) => id === idContato)
+  
   if (contactIndex >= 0) {
     user.contacts.splice(contactIndex, 1);
 
@@ -227,7 +228,7 @@ app.delete("/user/contacts/:id", async (req, res) => {
     res.status(200).json({ user })
   } else {
     console.log("\nContato não encontrado, nenhuma alteração foi feita!!!\n");
-    re.status(400).json({ error: "Contato não encotrado" })
+    res.status(400).json({ error: "Contato não encotrado" })
   }
 })
 

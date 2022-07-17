@@ -5,12 +5,14 @@ import { AiOutlineUserAdd } from "react-icons/ai";
 import { ListContacts } from "../../components/ListContacts/index";
 import "./styles.css";
 import FormTemplate from "../../components/FormTemplate";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthProvider";
 
 export function HomePage() {
   const [showAddContactContainer, setShowAddContactContainer] = useState(false);
   const [showEditContactContainer, setShowEditContactContainer] = useState(false);
   const [closeContainer, setCloseContainer] = useState(false);
+  const {logout} = useContext(AuthContext)
 
   useEffect(() => {
     if(closeContainer){
@@ -43,8 +45,8 @@ export function HomePage() {
         />
       )}
       <div className="navbar">
-        <img src={Orcatinhos} alt="" className="logo" />
-        <p className="exit">Sair</p>
+        <img src={Orcatinhos} alt="Orcatinhos Logo" className="logo" />
+        <p className="exit" onClick={() => logout()}>Sair</p>
       </div>
       <div>
         <div className="home-illustration-section">
@@ -57,7 +59,7 @@ export function HomePage() {
               Cadastrar um contato
             </button>
           </div>
-          <img src={homeIllustration} alt="" className="homeIllustration" />
+          <img src={homeIllustration} alt="Illustração Mulher" className="homeIllustration" />
         </div>
       </div>
       <div>

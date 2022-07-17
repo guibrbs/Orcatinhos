@@ -47,7 +47,7 @@ export function Logon({ setIsRegistering }: LogonInterface) {
                 <span className="contrast" onClick={() => setIsRegistering(false)}> Entre agora mesmo.</span>
             </p>
             {
-                successfulRegistration ? <RegistrationPerformed /> : <></>
+                successfulRegistration && <RegistrationPerformed />            
             }
         </section>
     )

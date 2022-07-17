@@ -16,7 +16,7 @@ export function InputTemplate({
       <p>{type}</p>
       <input
         required
-        type={type === "Senha" ? "password" : "text"}
+        type={type === "Senha" || type === "Confirme a Senha" ? "password" : "text"}
         placeholder={placeholder}
         className="auth-input"
         onChange={(e) => setProps(e.target.value)}

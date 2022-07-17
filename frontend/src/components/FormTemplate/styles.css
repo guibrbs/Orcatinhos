@@ -1,13 +1,21 @@
 .submit-section{
+    -webkit-backdrop-filter: brightness(0.4);
+    backdrop-filter: brightness(0.4);
+    width: 100vw;
+    height: 100vh;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .submit-container{
-    background-color: #f8f8f8d2;
-    backdrop-filter: blur(2rem);
+    width: 500px;
+    height: 500px;
+    background-color: rgb(255, 255, 255);
     padding: 3.5rem 3rem;
     border-radius: 1rem;
     position: relative;
@@ -56,6 +64,7 @@
     border: none;
     background-color: var(--contrast);    
     color: #F8F8F8;
+    font-weight: 600;
 }
 
 .submit:hover{

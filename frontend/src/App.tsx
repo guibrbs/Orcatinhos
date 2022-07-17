@@ -1,9 +1,9 @@
-import { Auth } from "./pages/Auth";
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
   return (
     <div className="App">
-      <Auth />
+      <AppRoutes />
     </div>
   );
 }

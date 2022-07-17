@@ -103,12 +103,13 @@ app.post('/auth/login', async (req, res) => {
 
   // check if user exists
   const user = await User.findOne({ email: email })
+  
   const nameUser = user.name //Received name
   const contacts = user.contacts //received contacts
   const id = user._id
+
   if (!user) {
     return res.status(404).json({ message: 'Usuário não encontrado!' })
-
   }
 
   //check it password match

@@ -193,31 +193,42 @@ app.post("/user/contacts/:id", async (req, res) => {
 app.put('/user/contacts/:id', async (req, res) => {
   const id = req.params.id
   const { idContato, nameContact, emailContact, telephoneContact } = req.body
-  // const { nameContact, emailContact, telephoneContact } = req.body
-  //check if user exists
-  console.log('oi')
+
   const user = await User.findById(id, '-password').exec()
-  // console.log(user)
-  // console.log(contacts)
   const contactsUpdate = user.contacts.find(({ id }) => id === idContato)
   console.log(contactsUpdate)
 
-    if(!contactsUpdate) {
-      return res.status(400).json({error: "Contato não existe"})
-    }
+  //check if contact exists
+  if (!contactsUpdate) {
+    return res.status(400).json({ error: "Contato não existe" })
+  }
 
   contactsUpdate.nameContact = nameContact ?? contactsUpdate.nameContact
   contactsUpdate.emailContact = emailContact ?? contactsUpdate.emailContact
   contactsUpdate.telephoneContact = telephoneContact ?? contactsUpdate.telephoneContact
 
-    User.updateOne()
+  User.updateOne()
 
   res.status(200).json({ user })
 
 })
 
 app.delete("/user/contacts/:id", async (req, res) => {
+  const id = req.params.id
+  const { idContato } = req.body
 
+  const user = await User.findById(id, '-password').exec()
+  const contactIndex = user.contacts.findIndex(({ id }) => id === idContato)
+  if (contactIndex >= 0) {
+    user.contacts.splice(contactIndex, 1);
+
+    User.updateOne()
+
+    res.status(200).json({ user })
+  } else {
+    console.log("\nContato não encontrado, nenhuma alteração foi feita!!!\n");
+    re.status(400).json({ error: "Contato não encotrado" })
+  }
 })
 
 

@@ -1,5 +1,4 @@
 .section{
-    background-color: #EEEEEE;
     height: 100vh;
     width: '100%';
     display: flexbox;
@@ -9,7 +8,6 @@
 .navbar{
     padding: 10px;
     display: flex;
-    background-color: #EEEEEE;
 }
 
 .logo {

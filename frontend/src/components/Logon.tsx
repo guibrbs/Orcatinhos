@@ -37,10 +37,10 @@ export function Logon({ setIsRegistering }: LogonInterface) {
             <h1 className="auth-input-title">Registre-se</h1>
             <p className="auth-input-subtitle">Por favor insira seus dados para cadastro</p>
             <form className="form" onSubmit={handleSubmitNewUser}>
-                <InputTemplate type="Nome" placeholder="Insira seu nome completo" setProps={setName} />
-                <InputTemplate type="Email" placeholder="Insira seu email" setProps={setEmail} />
-                <InputTemplate type="Senha" placeholder="Insira sua senha" setProps={setPassword} />
-                <InputTemplate type="Confirme a Senha" placeholder="Confirme a senha" setProps={setConfirmPassword} />
+                <InputTemplate type="Nome" placeholder="Insira seu nome completo" setProps={setName} value={name}/>
+                <InputTemplate type="Email" placeholder="Insira seu email" setProps={setEmail} value={email}/>
+                <InputTemplate type="Senha" placeholder="Insira sua senha" setProps={setPassword} value={password}/>
+                <InputTemplate type="Confirme a Senha" placeholder="Confirme a senha" setProps={setConfirmPassword} value={confirmPassword}/>
                 <button className="auth-button" type="submit">Cadastrar</button>
             </form>
             <p className="auth-connection">Já possui uma conta?

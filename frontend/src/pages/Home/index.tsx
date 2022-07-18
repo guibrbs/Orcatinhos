@@ -2,7 +2,7 @@ import Orcatinhos from "../../assets/orcatinhos.svg";
 import homeIllustration from "../../assets/home-illustration.svg";
 import { NoContacts } from "../../components/noContacts";
 import { AiOutlineUserAdd } from "react-icons/ai";
-import { ListContacts } from "../../components/ListContacts/index";
+import { ContactInfoType, ListContacts } from "../../components/ListContacts/index";
 import "./styles.css";
 import FormTemplate from "../../components/FormTemplate";
 import { useContext, useEffect, useState } from "react";
@@ -11,8 +11,9 @@ import { AuthContext } from "../../contexts/AuthProvider";
 export function HomePage() {
   const [showAddContactContainer, setShowAddContactContainer] = useState(false);
   const [showEditContactContainer, setShowEditContactContainer] = useState(false);
+  const [currentContactInfo, setCurrentContactInfo] = useState<ContactInfoType>()
   const [closeContainer, setCloseContainer] = useState(false);
-  const {logout} = useContext(AuthContext)
+  const {logout, user} = useContext(AuthContext)
 
   useEffect(() => {
     if(closeContainer){
@@ -42,6 +43,7 @@ export function HomePage() {
           button={"Editar"}
           title={"Edite seu contato"}
           setCloseContainer={setCloseContainer}
+          currentContactInfo={currentContactInfo}
         />
       )}
       <div className="navbar">
@@ -52,7 +54,7 @@ export function HomePage() {
         <div className="home-illustration-section">
           <div className="home-title-section">
             <h1 className="home-illustration-title">
-              Bem-vindo, Fulano de tal
+              Bem-vindo, {user.nameUser}
             </h1>
             <button className="home-button" onClick={handleOpenContainer}>
               <AiOutlineUserAdd fontSize={20} />
@@ -65,8 +67,11 @@ export function HomePage() {
       <div>
         <h1 className="contacts">Contatos cadastrados</h1>
       </div>
-      <ListContacts setShowEditContactContainer={setShowEditContactContainer} setCloseContainer={setCloseContainer}/>
-      {/* <NoContacts /> */}
+      {user.contacts.length === 0 ? 
+        <NoContacts />
+      :
+        <ListContacts setShowEditContactContainer={setShowEditContactContainer} setCloseContainer={setCloseContainer} setCurrentContactInfo={setCurrentContactInfo}/>
+      }
     </section>
   );
 }

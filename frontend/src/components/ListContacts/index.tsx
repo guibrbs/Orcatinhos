@@ -6,6 +6,9 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import "./styles.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../contexts/AuthProvider";
+import { api, deleteContact } from "../../services/api";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,66 +31,84 @@ const StyledTable = styled(Table)(({ theme }) => ({
   marginRight: "20%",
 }));
 
-function createData(name: string, number: number, email: string) {
-  return { name, number, email };
-}
-
-const rows = [
-  createData("Fulano1", 111, "Fulano111@.com"),
-  createData("Fulano2", 222, "Fulano222@.com"),
-  createData("Fulano3", 333, "Fulano333@.com"),
-  createData("Fulano2", 222, "Fulano222@.com"),
-  createData("Fulano3", 333, "Fulano333@.com"),
-  createData("Fulano2", 222, "Fulano222@.com"),
-  createData("Fulano3", 333, "Fulano333@.com"),
-  createData("Fulano2", 222, "Fulano222@.com"),
-  createData("Fulano3", 333, "Fulano333@.com"),
-];
-
 interface ListContactsInterface{
   setShowEditContactContainer: React.Dispatch<React.SetStateAction<boolean>>;
   setCloseContainer: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrentContactInfo: React.Dispatch<React.SetStateAction<ContactInfoType | undefined>>;
 }
 
-export function ListContacts({setShowEditContactContainer, setCloseContainer}: ListContactsInterface) {
+export type ContactInfoType = {
+  emailContact: string,
+  idContato: string,
+  nameContact: string,
+  telephoneContact: string,
+}
 
-  const handleOpenContainer = () =>{
+export function ListContacts({setShowEditContactContainer, setCloseContainer, setCurrentContactInfo}: ListContactsInterface) {
+  
+  const [contacts, setContacts] = useState([{
+    emailContact: "",
+    idContato: "",
+    nameContact: "",
+    telephoneContact: "",
+  }])
+
+  const {user} = useContext(AuthContext)
+
+  useEffect(() => {
+    if(user.id){
+      updateContacts()
+    }
+  }, [user])
+  
+  const handleOpenContainer = (contact: ContactInfoType) =>{
+    setCurrentContactInfo(contact)
     setShowEditContactContainer(true)
     setCloseContainer(false)
+  }
+
+  const updateContacts = () => {
+    api.get(`user/contacts/${user.id}`)
+      .then((response) => {
+        setContacts(response.data.user.contacts)
+      })
+  }
+
+  const handleDeleteContacts = async (contact: ContactInfoType) => {
+    await deleteContact(contact.idContato, user.id)
+    await updateContacts()
   }
 
   return (
     <div className="table">
       <StyledTable size="small" aria-label="a dense table">
         <TableHead>
-          <TableRow>
             <StyledTableCell>Nome</StyledTableCell>
             <StyledTableCell align="center">Número</StyledTableCell>
             <StyledTableCell align="center">Email</StyledTableCell>
-          </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {contacts.map((contact) => (
             <TableRow
-              key={row.name}
+              key={contact.idContato}
               sx={{ backgroundColor: "white" }} //arrumar as bordas
             >
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {contact.nameContact}
               </StyledTableCell>
-              <StyledTableCell align="center">{row.number}</StyledTableCell>
-              <StyledTableCell align="center">{row.email}</StyledTableCell>
+              <StyledTableCell align="center">{contact.telephoneContact}</StyledTableCell>
+              <StyledTableCell align="center">{contact.emailContact}</StyledTableCell>
               <StyledTableCell>
                 <div className="buttons-wrapper">
                   <FaEdit
                     className="edit-icon"
                     id="edit"
-                    onClick={handleOpenContainer}
+                    onClick={() => handleOpenContainer(contact)}
                   />
                   <FaTrash
                     className="edit-icon"
                     id="delete"
-                    onClick={() => ({})}
+                    onClick={() => handleDeleteContacts(contact)}
                   />
                 </div>
               </StyledTableCell>

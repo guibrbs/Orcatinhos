@@ -4,12 +4,14 @@ interface InputTemplateInterface {
   type: string;
   placeholder: string;
   setProps: React.Dispatch<React.SetStateAction<string>>;
+  value: string
 }
 
 export function InputTemplate({
   type,
   placeholder,
   setProps,
+  value
 }: InputTemplateInterface) {
   return (
     <>
@@ -20,6 +22,7 @@ export function InputTemplate({
         placeholder={placeholder}
         className="auth-input"
         onChange={(e) => setProps(e.target.value)}
+        value={value}
       />
     </>
   );

@@ -15,7 +15,6 @@ export function Login( {setIsRegistering}: LoginInterface ){
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
-        console.log("submit", { email, password })
         login(email, password)
     }
 
@@ -24,8 +23,8 @@ export function Login( {setIsRegistering}: LoginInterface ){
             <h1 className="auth-input-title">Login</h1>
             <p className="auth-input-subtitle">Bem vindo! Por favor insira seus dados</p>
             <form className="form" onSubmit={handleSubmit}>
-                <InputTemplate type="Email" placeholder="Insira seu email" setProps={setEmail} />
-                <InputTemplate type="Senha" placeholder="Insira sua senha" setProps={setPassword} />
+                <InputTemplate type="Email" placeholder="Insira seu email" setProps={setEmail} value={email}/>
+                <InputTemplate type="Senha" placeholder="Insira sua senha" setProps={setPassword} value={password}/>
                 <button className="auth-button" type="submit">Entrar</button>
             </form>
             <p className="auth-connection">Não possui uma conta? 

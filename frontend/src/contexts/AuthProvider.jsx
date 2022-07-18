@@ -6,7 +6,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
     const navigate = useNavigate()
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState()
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -20,30 +20,30 @@ export const AuthProvider = ({children}) => {
     }, [])
 
     const login = async (email, password) => {
-        console.log("login auth", {email, password});
+        const loggedUser = await createSession(email, password)
 
-        const response = await createSession(email, password)
+        updateUser(loggedUser)
 
-        const loggedUser = response.data.user
-        const token = response.data.token
-
-        localStorage.setItem("user", JSON.stringify(loggedUser))
-        localStorage.setItem("token", token)
-
-        setUser(loggedUser)
         navigate("/home")
     }
 
+    const updateUser = (userData) => {
+        const {data} = userData
+        if(data?._id){
+            data.id = data._id
+        }
+        localStorage.setItem("user", JSON.stringify(data))
+        setUser(data)
+    }
+
     const logout = () => {
-        console.log("logout")
         localStorage.removeItem("user")
-        localStorage.removeItem("token")
         setUser(null)
         navigate("/")
     }
 
     return(
-        <AuthContext.Provider value={{authenticated: !!user, user, loading, login, logout}}>
+        <AuthContext.Provider value={{authenticated: !!user, user, loading, login, updateUser, logout}}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,0 +1,28 @@
+.table{
+    color: var(--text);
+    padding-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.edit-icon{
+    cursor: pointer;
+    color: var(--text);
+    transition: color .3s;
+}
+
+.edit-icon#delete:hover{
+    color: var(--contrastDarker);
+    transform: scale(1.1);
+}
+
+.edit-icon#edit:hover{
+    color: var(--brand);
+    transform: scale(1.1);
+}
+
+.buttons-wrapper{
+    display: flex;
+    gap: 1.5rem;
+}

@@ -16,3 +16,7 @@ body{
   --contrastDarker: #B24663;
   --text: #2E2E2E;
 }
+
+.contrast{
+  color: var(--contrast);
+}

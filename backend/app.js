@@ -170,8 +170,14 @@ app.post("/user/contacts/:id", async (req, res) => {
     return res.status(422).json({ message: 'O nome do contato é obrigatório!' })
   }
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   user.contacts.push({
-    idContato: uuidv4(),
+    idContato: JSON.stringify(getRandomInt(0, 1000)),
     nameContact,
     emailContact,
     telephoneContact
@@ -194,41 +200,55 @@ app.post("/user/contacts/:id", async (req, res) => {
 app.put('/user/contacts/:id', async (req, res) => {
   const id = req.params.id
   const { idContato, nameContact, emailContact, telephoneContact } = req.body
-  // const { nameContact, emailContact, telephoneContact } = req.body
-  //check if user exists
-  console.log('oi')
-  const user = await User.findById(id, '-password').exec()
-  // console.log(user)
-  // console.log(contacts)
-  const contactsUpdate = user.contacts.find(({ id }) => id === idContato)
-  console.log(contactsUpdate)
+  console.log(id, idContato, nameContact, emailContact, telephoneContact)
 
-    if(!contactsUpdate) {
-      return res.status(400).json({error: "Contato não existe"})
+  const user = await User.findById(id, '-password')
+
+  const newContactList = user.contacts.map(contact => {
+    if(contact.idContato === idContato){
+      contact.nameContact = nameContact ?? contact.nameContact
+      contact.emailContact = emailContact ?? contact.emailContact
+      contact.telephoneContact = telephoneContact ?? contact.telephoneContact
     }
+    return contact
+  })
 
-  contactsUpdate.nameContact = nameContact ?? contactsUpdate.nameContact
-  contactsUpdate.emailContact = emailContact ?? contactsUpdate.emailContact
-  contactsUpdate.telephoneContact = telephoneContact ?? contactsUpdate.telephoneContact
+  user.contacts = [...newContactList]
+  console.log(user)
 
-    User.updateOne()
+  await User.replaceOne({
+    _id: id
+  }, user)
 
-  res.status(200).json({ user })
-
+  res.status(200).json(user)
 })
 
 app.delete("/user/contacts/:id", async (req, res) => {
+  const id = req.params.id
+  const { contactId } = req.body
+  console.log(id, req.body)
 
+  const user = await User.findById(id, '-password').exec()
+  const contactIndex = user.contacts.findIndex(({ idContato }) => idContato === contactId)
+  
+  if (contactIndex != -1) {
+    user.contacts.splice(contactIndex, 1);
+
+    await User.replaceOne({
+      _id: id
+    }, user)
+
+    res.status(200).json(user)
+  } else {
+    console.log("\nContato não encontrado, nenhuma alteração foi feita!!!\n");
+    res.status(400).json({ error: "Contato não encotrado" })
+  }
 })
 
-
-
-
 //Credenciais
-const dbUser = process.env.DB_USER
-const dbPass = process.env.DB_PASS
+const DB_CONNECTION = process.env.DB_CONNECTION
 
-mongoose.connect(`mongodb+srv://${dbUser}:${dbPass}@teste1.l29a3o8.mongodb.net/?retryWrites=true&w=majority`)
+mongoose.connect(DB_CONNECTION)
   .then(() => {
 
     app.listen(3001)

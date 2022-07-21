@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const cors = require('cors')
-const { v4: uuidv4 } = require('uuid');
-uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
+// const { v4: uuidv4 } = require('uuid');
+// uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
 
 
 const app = express()
@@ -169,8 +169,14 @@ app.post("/user/contacts/:id", async (req, res) => {
     return res.status(422).json({ message: 'O nome do contato é obrigatório!' })
   }
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   user.contacts.push({
-    idContato: uuidv4(),
+    idContato: JSON.stringify(getRandomInt(0, 1000)),
     nameContact,
     emailContact,
     telephoneContact
@@ -194,8 +200,10 @@ app.put('/user/contacts/:id', async (req, res) => {
   const id = req.params.id
   const { idContato, nameContact, emailContact, telephoneContact } = req.body
 
+  const idBody = idContato
   const user = await User.findById(id, '-password').exec()
-  const contactsUpdate = user.contacts.find(({ id }) => id === idContato)
+
+  const contactsUpdate = user.contacts.find(({ idContato }) => idContato === idBody)
   console.log(contactsUpdate)
 
   //check if contact exists
@@ -207,7 +215,7 @@ app.put('/user/contacts/:id', async (req, res) => {
   contactsUpdate.emailContact = emailContact ?? contactsUpdate.emailContact
   contactsUpdate.telephoneContact = telephoneContact ?? contactsUpdate.telephoneContact
 
-  User.updateOne()
+  user.updateOne()
 
   res.status(200).json({ user })
 
@@ -219,11 +227,10 @@ app.delete("/user/contacts/:id", async (req, res) => {
 
   const user = await User.findById(id, '-password').exec()
   const contactIndex = user.contacts.findIndex(({ id }) => id === idContato)
-  
+
   if (contactIndex >= 0) {
     user.contacts.splice(contactIndex, 1);
 
-    User.updateOne()
 
     res.status(200).json({ user })
   } else {
